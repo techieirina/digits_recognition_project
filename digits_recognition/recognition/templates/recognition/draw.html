@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Digits Recognition</title>
+    <style>
+        /* Style for the canvas element where users can draw the digit */
+        #canvas {
+            border: 1px solid black; /* Adds a black border around the canvas */
+            cursor: crosshair;       /* Changes the cursor to a crosshair when hovering over the canvas */
+            background-color: white; /* Sets the canvas background to white */
+        }
+    </style>
+</head>
+<body>
+    <h1>Draw a Digit</h1>
+
+    <!-- Canvas element where users will draw the digit -->
+    <canvas id="canvas" width="200" height="200"></canvas>
+    <br>
+    
+    <!-- Buttons for clearing the canvas and submitting the drawn digit -->
+    <button onclick="clearCanvas()">Clear</button>
+    <button onclick="submitCanvas()">Submit</button>
+    <br><br>
+
+    <!-- Form for uploading a digit image -->
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %} <!-- CSRF token for security in Django -->
+        <input type="file" name="digit_image"> <!-- File input for uploading an image -->
+        <button type="submit">Upload</button> <!-- Button to submit the uploaded image -->
+    </form>
+
+    <!-- Section to display the result and provide additional functionality -->
+    <div>
+        <!-- Area where the result of the digit recognition will be displayed -->
+        <div id="result"></div>
+        
+        <!-- Hidden image element to display a preview of the canvas drawing -->
+        <img id="previewImage" style="display: none;" alt="Canvas Preview">
+        
+        <!-- Hidden download link to allow users to download the canvas drawing -->
+        <a id="downloadLink" download="drawing.png" style="display: none;">Download Image</a>
+    </div>
+</body>
+</html>
