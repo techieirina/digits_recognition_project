@@ -1,0 +1,6 @@
+/* Style for the canvas element where users can draw the digit */
+#canvas {
+    border: 1px solid black; /* Adds a black border around the canvas */
+    cursor: crosshair;       /* Changes the cursor to a crosshair when hovering over the canvas */
+    background-color: white; /* Sets the canvas background to white */
+}
