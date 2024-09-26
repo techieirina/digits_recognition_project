@@ -7,16 +7,17 @@
     <link rel="stylesheet" href="{% static 'recognition/css/draw.css' %}">
 </head>
 <body>
-    <h1>Draw a Digit</h1>
+    <h1>Draw a Digit or Upload an Image</h1>
 
-    <!-- Canvas element where users will draw the digit -->
-    <canvas id="canvas" width="200" height="200"></canvas>
-    <br>
+    <div id="drawingArea">
+        <!-- Canvas element where users will draw the digit -->
+        <canvas id="canvas" width="200" height="200"></canvas>
+        
+        <!-- Buttons for clearing the canvas and submitting the drawn digit -->
+        <button onclick="clearCanvas()">Clear</button>
+        <button onclick="submitCanvas()">Submit</button>
+    </div>
     
-    <!-- Buttons for clearing the canvas and submitting the drawn digit -->
-    <button onclick="clearCanvas()">Clear</button>
-    <button onclick="submitCanvas()">Submit</button>
-    <br><br>
 
     <!-- Form for uploading a digit image -->
     <form method="POST" enctype="multipart/form-data">
@@ -36,5 +37,7 @@
         <!-- Hidden download link to allow users to download the canvas drawing -->
         <a id="downloadLink" download="drawing.png" style="display: none;">Download Image</a>
     </div>
+
+    <script src="{% static 'recognition/js/draw_canvas.js' %}"></script>
 </body>
 </html>
