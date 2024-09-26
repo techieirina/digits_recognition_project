@@ -26,7 +26,7 @@ model.compile(optimizer='adam',
 model.fit(x_train, y_train, epochs=5)
 
 # Save the model
-model.save('mnist_model.h5')
+model.save('digits_recognition/recognition/ml/mnist_model.h5')
 
 # Evaluate the model
 loss, accuracy = model.evaluate(x_test, y_test)
