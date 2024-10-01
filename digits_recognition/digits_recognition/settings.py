@@ -105,6 +105,41 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# Configuring the logger
+LOGGING = {
+    'version': 1,  # Version of the logging configuration schema
+    'disable_existing_loggers': False,  # Do not disable existing loggers when this configuration is loaded
+    'formatters': {  # Define different log message formats
+        'verbose': {
+            # Detailed logging format including level, time, module, and message
+            'format': '{levelname} {asctime} {module} {message}',
+            'style': '{',  # Use curly brace style for formatting
+        },
+        'simple': {
+            # Simple logging format including level and message only
+            'format': '{levelname} {message}',
+            'style': '{',  # Use curly brace style for formatting
+        },
+    },
+    'handlers': {  # Define handlers for log messages
+        'console': {
+            'class': 'logging.StreamHandler',  # Output log messages to the console
+            'formatter': 'simple',  # Use the simple format for log messages
+        },
+    },
+    'loggers': {  # Define loggers that will be used in the application
+        'django': {
+            'handlers': ['console'],  # Attach the console handler to the Django logger
+            'level': 'INFO',  # Set the logging level to INFO; messages with level INFO and above will be logged
+        },
+        'recognition': {
+            'handlers': ['console'],  # Attach the console handler to the custom logger
+            'level': 'DEBUG',  # Set the logging level to DEBUG; messages with level DEBUG and above will be logged
+            'propagate': False,  # Prevent messages from being propagated to parent loggers
+        },
+    },
+}
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
