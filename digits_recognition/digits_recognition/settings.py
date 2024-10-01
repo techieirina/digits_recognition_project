@@ -30,7 +30,7 @@ load_dotenv()
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'fallback-secret-key')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 # Allow all hosts (this should be more secure in production)
 ALLOWED_HOSTS = ['digits-recognition-app.herokuapp.com']
