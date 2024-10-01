@@ -1,6 +1,228 @@
-/* Style for the canvas element where users can draw the digit */
-#canvas {
-    border: 1px solid black; /* Adds a black border around the canvas */
-    cursor: crosshair;       /* Changes the cursor to a crosshair when hovering over the canvas */
-    background-color: white; /* Sets the canvas background to white */
+/* Global Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Typography */
+h1, h2 {
+    text-align: center;
+    padding: 10px; /* Common padding for h1 and h2 */
+}
+
+h1 {
+    padding: 10px;
+}
+
+h2 {
+    padding: 10px 10px 20px;
+}
+
+/* Body */
+body {
+    font-family: Arial, sans-serif;
+    color: #0f0f0f;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Header */
+header {
+    text-align: center;
+    background-color: #f8f9fa;
+    padding: 20px;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+/* Content Area */
+.content {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    flex: 1;
+}
+
+/* Column Styles */
+.column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    padding: 20px;
+    background-color: #f8f9fa;
+    margin: 10px;
+}
+
+/* Button Styles */
+button, .custom-file-upload {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #468da6; /* Green background */
+    color: white; /* White text */
+    border: none; /* Remove border */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    outline: none; /* Remove outline on focus */
+}
+
+button:hover,
+.custom-file-upload:hover {
+    background-color: #0f4f69; /* Darker green on hover */
+}
+
+button:active,
+.custom-file-upload:active {
+    transform: scale(0.98); /* Slightly shrink button when clicked */
+}
+
+.custom-file-upload:focus {
+    box-shadow: 0 0 0 3px rgba(70, 141, 166, 0.4);
+}
+
+/* Canvas Styles */
+canvas {
+    border: 2px solid #468da6; /* Blue border */
+    border-radius: 10px; /* Optional: rounded corners */
+}
+
+/* File Input Styles */
+input[type="file"] {
+    display: none; /* Hide the actual file input */
+}
+
+/* File Name Display */
+#file-chosen {
+    padding: 20px;
+    font-size: 16px;
+    color: #333;
+}
+
+/* Canvas Area */
+#canvas-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+/* Canvas Buttons Area */
+#canvas-buttons-area { 
+    padding: 10px;
+}
+
+/* Upload Image Area */
+#upload-image-area { 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+}
+
+/* Result Display */
+#result {
+    text-align: center;
+    font-size: 100px;
+    font-weight: bold;
+    background: linear-gradient(135deg, #0f4f69, #468da6);
+    background-clip: border-box;
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+/* Image Link */
+#buymeacoffee-img {
+    margin: 10px;
+    height: 36px;
+    width: auto;
+}
+
+/* Icon Container */
+.icon-container {
+    display: flex;
+    gap: 20px; /* Space between icons */
+}
+
+/* Icon Link */
+.icon-link {
+    margin: 10px;
+    font-size: 36px; /* Icon size */
+    color: #333; /* Default color */
+    transition: color 0.3s ease;
+}
+
+.icon-link:hover {
+    color: #0077b5; /* LinkedIn color on hover */
+}
+
+.icon-link:nth-child(2):hover {
+    color: #333; /* GitHub color on hover */
+}
+
+/* Footer */
+footer {
+    display: flex;
+    background-color: #f8f9fa;
+    text-align: center;
+    padding: 20px;
+    font-size: 18px;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .content {
+        flex-direction: column; /* Stack columns on top of each other */
+        padding: 10px; /* Reduce padding */
+    }
+
+    .column {
+        width: 100%; /* Make columns full width */
+        margin: 5px 0; /* Add margin for spacing between stacked columns */
+    }
+
+    #canvas {
+        width: 100%; /* Make canvas responsive */
+        height: auto; /* Adjust height automatically */
+    }
+
+    button, .custom-file-upload {
+        width: 100%; /* Full width buttons */
+        margin: 5px 0; /* Margin for spacing */
+    }
+
+    #file-chosen {
+        text-align: center; /* Center file name display */
+    }
+
+    #result {
+        font-size: 50px; /* Smaller font size for smaller screens */
+    }
+}
+
+@media (max-width: 480px) {
+    #result {
+        font-size: 36px; /* Even smaller font size for very small screens */
+    }
+
+    h1 {
+        font-size: 20px; /* Reduce header size */
+    }
+
+    h2 {
+        font-size: 18px; /* Reduce subheader size */
+    }
+
+    button, .custom-file-upload {
+        font-size: 14px; /* Smaller button text */
+    }
 }
