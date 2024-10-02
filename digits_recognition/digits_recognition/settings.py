@@ -34,7 +34,7 @@ SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'fallback-secret-key')
 DEBUG = False
 
 # Allow all hosts (this should be more secure in production)
-ALLOWED_HOSTS = ['digits-recognition-app.herokuapp.com']
+ALLOWED_HOSTS = ['digits-recognition.herokuapp.com']
 
 # Application definition
 
