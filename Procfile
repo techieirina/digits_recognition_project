@@ -1,1 +1,0 @@
-web: gunicorn digits_recognition_project.wsgi
