@@ -163,6 +163,12 @@ input[type="file"] {
     color: #333; /* GitHub color on hover */
 }
 
+#cookie-warning {
+    display: none;
+    color: red;
+    text-align: center;
+}
+
 /* Footer */
 footer {
     display: flex;
