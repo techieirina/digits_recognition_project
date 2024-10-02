@@ -20,7 +20,11 @@ def get_model():
     global model
     if model is None:
         model_path = os.path.join(settings.BASE_DIR, 'recognition', 'ml', 'mnist_model.h5')
-        model = tf.keras.models.load_model(model_path)
+        try:
+            model = tf.keras.models.load_model(model_path)
+        except FileNotFoundError as e:
+            logger.error(f"Model file not found: {e}")
+            raise e  # Reraise to handle it in the view
     return model
 
 def process_image(canvas_data):
@@ -32,11 +36,20 @@ def process_image(canvas_data):
     img_array = np.array(img)
     img_array = 255 - img_array  # Invert colors
     img_array = img_array / 255.0  # Normalize
-    return img_array.reshape(1, 28, 28)
+    return img_array.reshape(1, 28, 28, 1)  # Add channel dimension
 
 def recognize_digit(request):
+    logger.debug(f"Request method: {request.method}")
     if request.method == 'POST' and 'canvas_data' in request.POST:
         canvas_data = request.POST['canvas_data']
+        
+        # Check for valid canvas data
+        if not canvas_data or not canvas_data.startswith('data:image/png;base64,'):
+            logger.error("Invalid canvas data received.")
+            return JsonResponse({'error': 'Invalid canvas data'}, status=400)
+        
+        logger.debug(f"Canvas data received: {canvas_data[:50]}...")  # Log first 50 chars
+        
         try:
             img_array = process_image(canvas_data)
             model = get_model()
