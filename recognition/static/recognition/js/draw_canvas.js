@@ -80,24 +80,38 @@ function submitCanvas() {
     // Log the data URL for debugging purposes
     console.log('Canvas Data URL:', dataURL);
 
+    // Validate the data URL
+    if (!dataURL || !dataURL.startsWith('data:image/png;base64,' )) {
+        console.error("Invalid data URL");
+        return;
+    }
+
     // Prepare the data to be sent to the server
     let formData = new FormData();
     formData.append('canvas_data', dataURL); // Append the canvas data to the form data
 
     // Send the data to the Django view using fetch API
-    fetch('', {
+    fetch('/', {  // Update to your correct endpoint
         method: 'POST', // Set the request method to POST
         body: formData, // Include the form data in the body
         headers: {
             'X-CSRFToken': getCookie('csrftoken') // Add CSRF token for security
         }
     })
-    .then(response => response.json()) // Parse the JSON response
-    .then(data => {
-        console.log('Response Data:', data); // Log the response data for debugging
-        document.getElementById('result').innerText = `${data.digit}`; // Update the displayed recognized digit
+    .then(response => {
+        return response.text(); // Read as text first
     })
-    .catch(error => console.error('Error:', error)); // Log any errors that occur
+    .then(data => {
+        console.log('Raw Response Data:', data); // Log the raw response
+        try {
+            const jsonData = JSON.parse(data); // Try to parse JSON
+            console.log('Parsed JSON Data:', jsonData);
+            document.getElementById('result').innerText = `${jsonData.digit}`; // Update displayed digit
+        } catch (error) {
+            console.error('Error parsing JSON:', error);
+        }
+    })
+    .catch(error => console.error('Fetch error:', error)); // Log any errors that occur
 }
 
 // Function to upload an image for recognition
