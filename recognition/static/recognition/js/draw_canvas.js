@@ -152,19 +152,22 @@ function uploadImage() {
 // Function to get the CSRF token from cookies for secure requests
 function getCookie(name) {
     let cookieValue = null;
-    // Check if cookies are available
     if (document.cookie && document.cookie !== '') {
-        let cookies = document.cookie.split(';'); // Split cookies into an array
-        // Loop through cookies to find the desired one
+        const cookies = document.cookie.split(';');
         for (let i = 0; i < cookies.length; i++) {
-            let cookie = cookies[i].trim();
+            const cookie = cookies[i].trim();
             if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1)); // Decode and return the cookie value
-                break; // Exit the loop once the cookie is found
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
             }
         }
     }
-    return cookieValue; // Return the cookie value or null
+    return cookieValue;
+}
+
+// Check if cookies are enabled
+if (!getCookie('csrftoken')) {
+    document.getElementById('cookie-warning').style.display = 'block';
 }
 
 // Initialize the canvas when the script loads
