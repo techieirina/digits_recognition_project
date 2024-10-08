@@ -23,10 +23,10 @@ model.compile(optimizer='adam',
               metrics=['accuracy'])
 
 # Train the model
-model.fit(x_train, y_train, epochs=5)
+model.fit(x_train, y_train, epochs=10)
 
 # Save the model
-model.save('digits_recognition/recognition/ml/mnist_model.h5')
+model.save('recognition/ml/mnist_model.h5')
 
 # Evaluate the model
 loss, accuracy = model.evaluate(x_test, y_test)
@@ -41,7 +41,7 @@ def plot_image(img, label, prediction):
     plt.show()
 
 # Take a few test images and make predictions
-num_samples = 5
+num_samples = 2
 for i in range(num_samples):
     img = x_test[i]
     true_label = y_test[i]
