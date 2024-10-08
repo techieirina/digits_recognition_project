@@ -25,11 +25,22 @@ function initCanvas() {
 canvas.addEventListener('mousedown', startPosition);
 canvas.addEventListener('mouseup', endPosition);
 canvas.addEventListener('mousemove', draw);
+canvas.addEventListener('mouseleave', endPosition); // Add this line to handle mouse leaving the canvas
+
 
 // Add touch event listeners for mobile devices
-canvas.addEventListener('touchstart', startPosition);
-canvas.addEventListener('touchend', endPosition);
-canvas.addEventListener('touchmove', draw);
+canvas.addEventListener('touchstart', (e) => {
+    e.preventDefault(); // Prevent scrolling
+    startPosition(e);
+});
+canvas.addEventListener('touchend', (e) => {
+    e.preventDefault(); // Prevent scrolling
+    endPosition();
+});
+canvas.addEventListener('touchmove', (e) => {
+    e.preventDefault(); // Prevent scrolling
+    draw(e);
+});
 
 // Function to start drawing when the mouse or touch is detected
 function startPosition(e) {
