@@ -62,7 +62,7 @@ You can try the live demo here: [Digit Recognition App on Heroku](https://digits
 
 ## Model Overview
 
-The app uses a neural network trained on the [MNIST dataset](http://yann.lecun.com/exdb/mnist/) using **Keras** with a **TensorFlow** backend. The MNIST dataset consists of 28x28 grayscale images of handwritten digits. The current model is simple and suitable for recognizing isolated digits on plain backgrounds.
+The app uses a neural network trained on the [MNIST dataset](http://yann.lecun.com/exdb/mnist/) using **Keras** with a **TensorFlow** backend. This dataset consists of grayscale images of handwritten digits, providing a robust benchmark for evaluating image classification algorithms. The model follows a straightforward architecture, which includes an input layer that flattens the image data, a hidden layer with ReLU activation to capture complex features, and an output layer that predicts the digit class using softmax activation.
 
 ## How to Test the App
 
