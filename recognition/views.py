@@ -55,12 +55,15 @@ def recognize_digit(request):
             model = get_model()
             prediction = model.predict(img_array)
             digit = int(np.argmax(prediction))
-            logger.debug(f"Recognized digit: {digit}")
-            return JsonResponse({'digit': digit})
+            confidence = float(np.max(prediction)) * 100  # Extract confidence (probability) and convert to percentage
+            logger.debug(f"Recognized digit: {digit}, Confidence: {confidence:.2f}%")
+            return JsonResponse({'digit': digit, 'confidence': confidence})
         except ValueError as e:
             logger.error(f"Invalid image data: {e}")
             return JsonResponse({'error': 'Invalid image data'}, status=400)
         except Exception as e:
             logger.error(f"An error occurred: {e}")
             return JsonResponse({'error': 'An error occurred'}, status=500)
+    
     return render(request, 'recognition/draw.html')
+
