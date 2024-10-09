@@ -197,7 +197,8 @@ function uploadImage() {
             })
             .then(response => response.json()) // Parse the JSON response
             .then(data => {
-                document.getElementById('result').innerText = `${data.digit}`; // Update the displayed recognized digit
+                document.getElementById('result').innerText = `${data.digit}`;
+                document.getElementById('accuracy').innerText = `${data.confidence.toFixed(2)}%`; // Update the displayed recognized digit
                 // Reset the value and displayed file name after prediction
                 document.getElementById('image-upload').value = '';
                 document.getElementById('file-chosen').innerText = 'No file chosen'; // Reset file display
