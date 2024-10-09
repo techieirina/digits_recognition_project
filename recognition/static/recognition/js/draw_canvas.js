@@ -3,11 +3,15 @@
 // Get references to the image upload input and the display area for the chosen file name
 const imageUpload = document.getElementById('image-upload');
 const fileChosen = document.getElementById('file-chosen');
+const submitButton = document.getElementById('submit-button'); // Reference to the submit button for canvas
+const clearButton = document.getElementById('clear-button'); // Reference to the clear button for canvas
+const uploadButton = document.getElementById('upload-button'); // Reference to the upload button
 
 // Event listener to update the fileChosen element with the name of the selected file
 imageUpload.addEventListener('change', function() {
     // Update text content based on whether a file is chosen
     fileChosen.textContent = this.files.length > 0 ? this.files[0].name : 'No file chosen';
+    updateButtonState(); // Check if the buttons should be enabled/disabled
 });
 
 // Get the canvas element and its 2D drawing context
@@ -21,12 +25,37 @@ function initCanvas() {
     ctx.fillRect(0, 0, canvas.width, canvas.height); // Fill the entire canvas with the background color
 }
 
+// Function to check if the canvas is blank
+function isCanvasBlank() {
+    const canvasData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    const pixelData = canvasData.data;
+
+    // Check if all the pixels are the same as the background color (white in this case)
+    for (let i = 0; i < pixelData.length; i += 4) {
+        // If any pixel is not white (255, 255, 255, 255), the canvas is not blank
+        if (pixelData[i] !== 255 || pixelData[i + 1] !== 255 || pixelData[i + 2] !== 255 || pixelData[i + 3] !== 255) {
+            return false; // Canvas is not blank
+        }
+    }
+    return true; // Canvas is blank
+}
+
+// Function to update the button state
+function updateButtonState() {
+    const isBlank = isCanvasBlank();
+    const fileUploaded = imageUpload.files.length > 0;
+
+    // Enable or disable the buttons based on canvas state and uploaded file
+    submitButton.disabled = isBlank; // Disable if canvas is blank
+    clearButton.disabled = isBlank; // Enable if canvas is not blank
+    uploadButton.disabled = !fileUploaded; // Disable if canvas is blank and no file uploaded
+}
+
 // Event listeners to handle mouse and touch events for drawing on the canvas
 canvas.addEventListener('mousedown', startPosition);
 canvas.addEventListener('mouseup', endPosition);
 canvas.addEventListener('mousemove', draw);
-canvas.addEventListener('mouseleave', endPosition); // Add this line to handle mouse leaving the canvas
-
+canvas.addEventListener('mouseleave', endPosition); // Handle mouse leaving the canvas
 
 // Add touch event listeners for mobile devices
 canvas.addEventListener('touchstart', (e) => {
@@ -52,6 +81,7 @@ function startPosition(e) {
 function endPosition() {
     painting = false; // Set painting flag to false
     ctx.beginPath(); // Start a new path to avoid connecting lines
+    updateButtonState(); // Check if canvas is blank after ending drawing
 }
 
 // Function to draw on the canvas based on mouse/touch movement
@@ -73,15 +103,22 @@ function draw(e) {
     ctx.stroke(); // Render the line
     ctx.beginPath(); // Start a new path for the next segment
     ctx.moveTo(x, y); // Move to the current position for the next segment
+
+    updateButtonState(); // Check if canvas is blank after drawing
 }
 
 // Function to clear the canvas
 function clearCanvas() {
+    if(isCanvasBlank){
+        document.getElementById('result').innerText = 'NONE';
+        document.getElementById('accuracy').innerText = 'N/A';
+    }
     ctx.fillStyle = 'white'; // Set background color to white
     ctx.fillRect(0, 0, canvas.width, canvas.height); // Fill the canvas with white
 
     // Reset the prediction result displayed
     document.getElementById('result').innerText = 'NONE'; // Reset prediction text
+    updateButtonState(); // Update button state after clearing canvas
 }
 
 // Function to submit the canvas drawing for recognition
@@ -118,6 +155,7 @@ function submitCanvas() {
             const jsonData = JSON.parse(data); // Try to parse JSON
             console.log('Parsed JSON Data:', jsonData);
             document.getElementById('result').innerText = `${jsonData.digit}`; // Update displayed digit
+            document.getElementById('accuracy').innerText = `Confidence: ${jsonData.confidence.toFixed(2)}%`; // Update displayed confidence
         } catch (error) {
             console.error('Error parsing JSON:', error);
         }
@@ -126,14 +164,26 @@ function submitCanvas() {
 }
 
 // Function to upload an image for recognition
+// Function to upload an image for recognition
 function uploadImage() {
     const fileInput = document.getElementById('image-upload'); // Get the file input element
     const file = fileInput.files[0]; // Get the first selected file
 
     if (file) {
+        // Check if the file is a PNG
+        if (file.type !== 'image/png') {
+            alert('Only .png images are accepted. Please upload a .png image.');
+            document.getElementById('image-upload').value = ''; // Clear the file input
+            document.getElementById('file-chosen').innerText = 'No file chosen'; // Reset file name display
+            return; // Exit the function if the file is not a .png
+        }
+
         const reader = new FileReader(); // Create a new FileReader to read the file
         reader.onload = function(event) {
             const canvasData = event.target.result; // Get the base64 string of the image
+
+            // You might add additional checks here to ensure the image has digits on a black background.
+            // That would require more complex image processing techniques, typically done on the server-side.
 
             // Send the image data to the server for recognition
             fetch('', {
@@ -148,8 +198,10 @@ function uploadImage() {
             .then(response => response.json()) // Parse the JSON response
             .then(data => {
                 document.getElementById('result').innerText = `${data.digit}`; // Update the displayed recognized digit
-                // Reset the displayed file name after prediction
-                document.getElementById('file-chosen').innerText = 'No file chosen'; // Reset prediction text
+                // Reset the value and displayed file name after prediction
+                document.getElementById('image-upload').value = '';
+                document.getElementById('file-chosen').innerText = 'No file chosen'; // Reset file display
+                updateButtonState(); // Update button state after image upload
             })
             .catch(error => console.error('Error:', error)); // Log any errors that occur
         };
@@ -157,6 +209,7 @@ function uploadImage() {
         reader.readAsDataURL(file); // Convert the image to a base64 string
     } else {
         alert('Please select an image file.'); // Alert the user if no file is selected
+        document.getElementById('result').innerText = `NONE`;
     }
 }
 
@@ -183,3 +236,4 @@ if (!getCookie('csrftoken')) {
 
 // Initialize the canvas when the script loads
 initCanvas();
+updateButtonState(); // Initial state of buttons when canvas is initialized
