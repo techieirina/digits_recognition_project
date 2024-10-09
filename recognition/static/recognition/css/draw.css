@@ -61,6 +61,7 @@ header {
 button, .custom-file-upload {
     padding: 10px 20px;
     font-size: 16px;
+    text-align: center;
     background-color: #468da6; /* Green background */
     color: white; /* White text */
     border: none; /* Remove border */
@@ -84,6 +85,15 @@ button:active,
     box-shadow: 0 0 0 3px rgba(70, 141, 166, 0.4);
 }
 
+/* Disabled Button Styles */
+button:disabled, .custom-file-upload:disabled {
+    background-color: #cccccc; /* Light grey background for disabled state */
+    color: #666666; /* Dark grey text */
+    cursor: not-allowed; /* Show "not-allowed" cursor */
+    opacity: 0.7; /* Slightly faded effect */
+    pointer-events: none; /* Disable all pointer events */
+}
+
 /* Canvas Styles */
 canvas {
     border: 2px solid #468da6; /* Blue border */
@@ -100,6 +110,7 @@ input[type="file"] {
     padding: 20px;
     font-size: 16px;
     color: #333;
+    text-align: center;
 }
 
 /* Canvas Area */
@@ -125,13 +136,18 @@ input[type="file"] {
 
 /* Result Display */
 #result {
-    text-align: center;
     font-size: 100px;
+    text-align: center;
     font-weight: bold;
     background: linear-gradient(135deg, #0f4f69, #468da6);
     background-clip: border-box;
     -webkit-background-clip: text;
     color: transparent;
+}
+
+ #accuracy {
+    font-size: 1.5em; /* Adjust the font size */
+    text-align: center;
 }
 
 /* Image Link */
@@ -210,8 +226,12 @@ footer {
         text-align: center; /* Center file name display */
     }
 
-    #result {
-        font-size: 50px; /* Smaller font size for smaller screens */
+    #result{
+        font-size: 50px;
+    }
+    
+    #accuracy {
+        font-size: 1em; /* Even smaller font size for extra small screens */
     }
 }
 
